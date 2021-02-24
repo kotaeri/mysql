@@ -1,0 +1,16 @@
+FROM mysql:8.0
+
+RUN yum --disableplugin=subscription-manager -y install httpd
+RUN sed -i 's/Listen 80/Listen 0.0.0.0:9999/' /etc/httpd/conf/httpd.conf 
+EXPOSE 9999
+USER 1001
+CMD httpd -D FOREGROUND
+
+COPY ./conf/   /etc/mysql/
+COPY ./sql/ /docker-entrypoint-initdb.d/
+EXPOSE 8889
+ENV MYSQL_ROOT_PASSWORD=root
+RUN mkdir /var/lib/mysql-files
+USER mysql
+CMD ["mysqld"]
+
