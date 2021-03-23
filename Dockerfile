@@ -7,4 +7,3 @@ RUN mkdir /var/lib/mysql-files
 USER mysql
 CMD ["mysqld"]
 # USER root
-
